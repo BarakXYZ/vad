@@ -1,5 +1,9 @@
 import { assert } from "@esm-bundle/chai"
-import { MicVAD } from "../src/index"
+import { DEFAULT_MODEL, MicVAD } from "../src/index"
+
+it("defaults to the current Silero model artifact", function () {
+  assert.equal(DEFAULT_MODEL, "v6")
+})
 
 it("should export MicVAD", async function () {
   this.timeout(5000)

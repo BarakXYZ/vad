@@ -20,7 +20,7 @@ import {
 } from "./models"
 import { Resampler } from "./resampler"
 
-export const DEFAULT_MODEL = "legacy"
+export const DEFAULT_MODEL = "v6"
 
 interface RealTimeVADCallbacks {
   /** Callback to run after each frame. The size (number of samples) of a frame is given by `frameSamples`. */
