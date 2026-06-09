@@ -15,6 +15,7 @@
   "version": "0.0.30",
   "license": "ISC",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "unpkg": "dist/bundle.min.js",
   "jsdelivr": "dist/bundle.min.js",
   "devDependencies": {
