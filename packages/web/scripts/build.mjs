@@ -9,7 +9,8 @@ const scriptDir = dirname(fileURLToPath(import.meta.url))
 const packageDir = join(scriptDir, "..")
 const repoRoot = join(packageDir, "..", "..")
 const distDir = join(packageDir, "dist")
-const tscBin = require.resolve("typescript/bin/tsc")
+const tsgoPackageJson = require.resolve("@typescript/native-preview/package.json")
+const tsgoBin = join(dirname(tsgoPackageJson), "bin", "tsgo.js")
 const webpackBin = require.resolve("webpack/bin/webpack.js")
 
 async function run(command, args) {
@@ -31,7 +32,7 @@ async function run(command, args) {
 
 await rm(distDir, { recursive: true, force: true })
 await mkdir(distDir, { recursive: true })
-await run(process.execPath, [tscBin])
+await run(process.execPath, [tsgoBin])
 
 for (const modelFile of [
   "silero_vad_legacy.onnx",

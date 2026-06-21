@@ -5,14 +5,14 @@ echo "TEMPFILE $t"
 
 (
     cd test-site/dist
-    npx live-server --host=localhost --port=8080 --no-css-inject "--watch=$t"
+    corepack pnpm exec live-server --host=localhost --port=8080 --no-css-inject "--watch=$t"
 ) &
 SERVER_PID=$!
 echo "live server pid $SERVER_PID"
 
-npx nodemon \
+corepack pnpm exec nodemon \
     --on-change-only \
-    --exec "npm run build && npm run build-test-site && openssl rand -base64 12 > $t" \
+    --exec "corepack pnpm run build && corepack pnpm run build-test-site && openssl rand -base64 12 > $t" \
     -e js,ts,jsx,tsx,html,css \
     --watch packages/web/src \
     --watch packages/react/src \
@@ -20,9 +20,9 @@ npx nodemon \
 BUILD_PACKAGE_PID=$!
 echo "nodemon pid $BUILD_PACKAGE_PID"
 
-npx nodemon \
+corepack pnpm exec nodemon \
     --on-change-only \
-    --exec "npm run build-test-site && openssl rand -base64 12 > $t" \
+    --exec "corepack pnpm run build-test-site && openssl rand -base64 12 > $t" \
     -e js,ts,jsx,tsx,html,css \
     --watch test-site/src \
     &

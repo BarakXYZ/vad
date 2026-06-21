@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "lib": ["es2022", "dom"],
     "noEmit": false,
     "rootDir": "./src" /* Specify the root folder within your source files. */,
-    "outDir": "./dist" /* Specify an output folder for all emitted files. */
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+    "types": ["audioworklet"]
   },
   "extends": "../../tsconfig.json",
   "include": ["src"]

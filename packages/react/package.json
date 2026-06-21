@@ -21,15 +21,15 @@
   },
   "dependencies": {
     "onnxruntime-web": "^1.17.0",
-    "@ricky0123/vad-web": "0.0.30"
+    "@ricky0123/vad-web": "workspace:*"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsgo -p tsconfig.json",
     "clean": "rm -rf dist",
-    "release": "npm publish --access public"
+    "release": "pnpm publish --access public"
   }
 }

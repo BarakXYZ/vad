@@ -1,0 +1,13 @@
+packages:
+  - packages/web
+  - packages/react
+
+catalog:
+  "@effect/tsgo": 0.13.2
+  "@types/node": 24.12.4
+  "@typescript/native-preview": 7.0.0-dev.20260604.1
+  typescript: ~6.0.3
+
+overrides:
+  "@effect/tsgo": "catalog:"
+  "@types/node": "catalog:"

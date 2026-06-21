@@ -1,25 +1,29 @@
 {
   "version": "0.0.0",
   "license": "ISC",
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "clean": "npm run clean --workspaces --if-present",
+    "prepare": "effect-tsgo patch",
+    "build": "corepack pnpm -r --if-present run build",
+    "test": "corepack pnpm -r --if-present run test",
+    "clean": "corepack pnpm -r --if-present run clean",
     "format": "prettier --write '{packages,examples,test-site}/**/*.{ts,tsx}'",
     "format-check": "prettier --check '{packages,examples,test-site}/**/*.{ts,tsx}'",
     "lint": "./scripts/lint.sh",
     "lint:fix": "eslint --config eslint.config.mts 'packages/**/*.{ts,tsx}' --fix",
-    "typecheck": "tsc --noEmit --project packages/web/tsconfig.json && tsc --noEmit --project packages/react/tsconfig.json && tsc --noEmit --project test-site/tsconfig.json",
+    "typecheck": "tsgo --noEmit --project packages/web/tsconfig.json && tsgo --noEmit --project packages/react/tsconfig.json && tsgo --noEmit --project test-site/tsconfig.json",
     "build-test-site": "./test-site/build.sh",
     "serve-test-site": "http-server ./test-site/dist",
     "dev": "./scripts/dev.sh",
-    "release-all": "npm run release --workspaces --if-present"
+    "release-all": "corepack pnpm -r --if-present run release"
   },
   "private": true,
   "devDependencies": {
+    "@effect/tsgo": "catalog:",
     "@eslint/js": "^9.38.0",
     "@esm-bundle/chai": "^4.3.4-fix.0",
     "@types/mocha": "^10.0.10",
+    "@types/node": "catalog:",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@web/dev-server-esbuild": "^1.0.4",
@@ -36,13 +40,13 @@
     "prettier-plugin-organize-imports": "^4.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "@typescript/native-preview": "catalog:",
+    "typescript": "catalog:",
     "typescript-eslint": "^8.46.2"
   },
   "workspaces": [
     "packages/web",
     "packages/react"
   ],
-  "dependencies": {
-    "typescript": "^5.2.2"
-  }
+  "dependencies": {}
 }

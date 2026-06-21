@@ -4,25 +4,25 @@ set +x
 
 (
     cd examples/bundler
-    npm remove @ricky0123/vad-web
-    npm i @ricky0123/vad-web@latest
-    npm run clean
-    npm run build
+    corepack pnpm remove @ricky0123/vad-web
+    corepack pnpm add @ricky0123/vad-web@latest
+    corepack pnpm run clean
+    corepack pnpm run build
 )
 
 (
     cd examples/react-bundler
-    npm remove @ricky0123/vad-react
-    npm i @ricky0123/vad-react@latest
-    npm run clean
-    npm run build
+    corepack pnpm remove @ricky0123/vad-react
+    corepack pnpm add @ricky0123/vad-react@latest
+    corepack pnpm run clean
+    corepack pnpm run build
 )
 
 (
     cd examples/nextjs
-    npm remove @ricky0123/vad-react
-    npm i @ricky0123/vad-react@latest
-    npm run build
+    corepack pnpm remove @ricky0123/vad-react
+    corepack pnpm add @ricky0123/vad-react@latest
+    corepack pnpm run build
 )
 
 (

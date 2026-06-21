@@ -1,6 +1,13 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "lib": ["es2022", "dom"],
+    "paths": {
+      "@ricky0123/vad-react": ["./../packages/react/src"],
+      "@ricky0123/vad-web": ["./../packages/web/src"],
+      "@ricky0123/vad-web/*": ["./../packages/web/src/*"]
+    },
+    "types": ["node"]
   },
   "extends": "../tsconfig.json",
   "include": ["src"]
