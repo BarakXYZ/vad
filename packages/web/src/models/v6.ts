@@ -1,5 +1,4 @@
 import * as ort from "onnxruntime-web/wasm"
-import { log } from "../logging"
 import { ModelFactory, ModelFetcher, SpeechProbabilities } from "./common"
 
 const CONTEXT_SIZE = 64 // Context size for 16kHz sample rate
@@ -29,13 +28,11 @@ export class SileroV6 {
     ortInstance: typeof ort,
     modelFetcher: ModelFetcher
   ) => {
-    log.debug("Loading VAD...")
     const modelArrayBuffer = await modelFetcher()
     const _session = await ortInstance.InferenceSession.create(modelArrayBuffer)
 
     const _sr = new ortInstance.Tensor("int64", [16000n])
     const _state = getNewState(ortInstance)
-    log.debug("...finished loading VAD")
     return new SileroV6(_session, _state, _sr, ortInstance)
   }
 
