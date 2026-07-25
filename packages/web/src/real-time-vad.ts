@@ -56,6 +56,7 @@ type AssetOptions = {
 
 type ModelOptions = {
   model: "v5" | "v6" | "legacy"
+  modelFactory?: ModelFactory
 }
 
 export interface RealTimeVADOptions
@@ -282,11 +283,12 @@ export class MicVAD {
         : sileroLegacyFile
     const modelURL = fullOptions.baseAssetPath + modelFile
     const modelFactory: ModelFactory =
-      fullOptions.model === "v5"
+      fullOptions.modelFactory ??
+      (fullOptions.model === "v5"
         ? SileroV5.new
         : fullOptions.model === "v6"
         ? SileroV6.new
-        : SileroLegacy.new
+        : SileroLegacy.new)
     let model: Model
     try {
       model = await modelFactory(ort, () => defaultModelFetcher(modelURL))
@@ -495,17 +497,37 @@ export class MicVAD {
     log.debug("destroy called")
     this.initializationState = "destroyed"
 
-    const { vadNode } = this.getAudioInstances()
-    if (vadNode instanceof AudioWorkletNode) {
-      vadNode.port.postMessage(Message.SpeechStop)
+    if (
+      typeof AudioWorkletNode !== "undefined" &&
+      this._vadNode instanceof AudioWorkletNode
+    ) {
+      this._vadNode.port.postMessage(Message.SpeechStop)
     }
 
-    if (this.listening) {
-      await this.pause()
+    let firstError: unknown
+    try {
+      if (this.listening) {
+        await this.pause()
+      }
+    } catch (error) {
+      firstError = error
     }
-    await this.model.release()
+    try {
+      await this.model.release()
+    } catch (error) {
+      firstError ??= error
+    }
     if (this.ownsAudioContext) {
-      await this._audioContext?.close()
+      try {
+        await this._audioContext?.close()
+      } catch (error) {
+        firstError ??= error
+      }
+    }
+    if (firstError !== undefined) {
+      throw firstError instanceof Error
+        ? firstError
+        : new Error("MicVAD cleanup failed", { cause: firstError })
     }
   }
 

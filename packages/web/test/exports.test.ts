@@ -1,5 +1,12 @@
 import { assert } from "@esm-bundle/chai"
-import { DEFAULT_MODEL, MicVAD, Resampler, SileroV6 } from "../src/index"
+import type { Model } from "../src/index"
+import {
+  DEFAULT_MODEL,
+  MicVAD,
+  Resampler,
+  SileroV6,
+  SileroV6Runtime,
+} from "../src/index"
 
 it("defaults to the current Silero model artifact", function () {
   assert.equal(DEFAULT_MODEL, "v6")
@@ -7,28 +14,25 @@ it("defaults to the current Silero model artifact", function () {
 
 it("exports the streaming v6 model and resampler primitives", function () {
   assert.isFunction(SileroV6)
+  assert.isFunction(SileroV6Runtime)
   assert.isFunction(Resampler)
 })
 
 it("should export MicVAD", async function () {
   this.timeout(5000)
   const vad = await MicVAD.new({
-    onnxWASMBasePath:
-      "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/",
-    baseAssetPath:
-      "https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.28/dist/",
+    modelFactory: async () => createTestModel(),
     startOnLoad: false,
   })
   assert.isFalse(vad.listening)
+  await vad.destroy()
 })
 
 it("should toggle listening state on start and pause", async function () {
   this.timeout(5000)
   const vad = await MicVAD.new({
-    onnxWASMBasePath:
-      "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/",
-    baseAssetPath:
-      "https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.28/dist/",
+    modelFactory: async () => createTestModel(),
+    processorType: "ScriptProcessor",
     startOnLoad: false,
   })
   assert.isFalse(vad.listening)
@@ -38,4 +42,13 @@ it("should toggle listening state on start and pause", async function () {
   await vad.pause()
   console.log("paused")
   assert.isFalse(vad.listening)
+  await vad.destroy()
 })
+
+function createTestModel(): Model {
+  return {
+    reset_state: () => {},
+    process: async () => ({ isSpeech: 0, notSpeech: 1 }),
+    release: async () => {},
+  }
+}

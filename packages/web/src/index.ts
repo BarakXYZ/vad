@@ -11,6 +11,7 @@ export type {
   SpeechProbabilities,
 } from "./models/common"
 export { SileroV6 } from "./models/v6"
+export { SileroV6Runtime } from "./models/v6-runtime"
 export { NonRealTimeVAD } from "./non-real-time-vad"
 export type { NonRealTimeVADOptions } from "./non-real-time-vad"
 export { Resampler } from "./resampler"
