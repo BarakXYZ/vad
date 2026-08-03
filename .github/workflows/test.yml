@@ -25,7 +25,7 @@ jobs:
         run: corepack pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: corepack pnpm exec playwright install --with-deps
+        run: corepack pnpm --filter @ricky0123/vad-web exec playwright install --with-deps
 
       - name: Build packages
         run: corepack pnpm run build
