@@ -2,9 +2,9 @@ name: Lint Check
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "xyz/main"]
   pull_request:
-    branches: ["master"]
+    branches: ["master", "xyz/main"]
 
 jobs:
   lint-check:
@@ -16,15 +16,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "23.x"
-          cache: "npm"
+          node-version: "24.16.0"
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: npm ci
+        run: corepack pnpm install --frozen-lockfile
 
       - name: Build all packages
-        run: npm run build
+        run: corepack pnpm run build
 
       - name: Check if code is linted
         run: |
-          npm run lint
+          corepack pnpm run lint

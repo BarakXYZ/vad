@@ -22,10 +22,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: "24.16.0"
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Set Working Directory
         run: |
@@ -48,9 +51,9 @@ jobs:
           echo "WORKING_DIRECTORY=$WORKING_DIRECTORY" >> $GITHUB_ENV
           echo "Working Directory: $WORKING_DIRECTORY"
 
-      - run: npm ci
+      - run: corepack pnpm install --frozen-lockfile
 
-      - run: npm run build
+      - run: corepack pnpm run build
 
       - name: Publish Package
         run: |

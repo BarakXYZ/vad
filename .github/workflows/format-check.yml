@@ -2,9 +2,9 @@ name: Format Check
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "xyz/main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "xyz/main" ]
 
 jobs:
   format-check:
@@ -16,12 +16,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
-          cache: 'npm'
+          node-version: "24.16.0"
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: npm ci
+        run: corepack pnpm install --frozen-lockfile
 
       - name: Check if code is formatted
         run: |
-          npm run format-check
+          corepack pnpm run format-check

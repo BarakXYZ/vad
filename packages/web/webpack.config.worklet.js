@@ -3,6 +3,7 @@ const dev = { mode: "development", suffix: "dev" }
 const workletConfig = ({ mode, suffix }) => {
   return {
     mode,
+    target: "web",
     entry: { worklet: "./dist/worklet.js" },
     output: {
       filename: `vad.worklet.bundle.${suffix}.js`,

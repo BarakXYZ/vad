@@ -2,9 +2,9 @@ name: Test
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "xyz/main"]
   pull_request:
-    branches: ["master"]
+    branches: ["master", "xyz/main"]
 
 jobs:
   test:
@@ -16,17 +16,22 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
-          cache: "npm"
+          node-version: "24.16.0"
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: npm ci
+        run: corepack pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: corepack pnpm exec playwright install --with-deps
 
       - name: Build packages
-        run: npm run build
+        run: corepack pnpm run build
+
+      - name: Verify reproducible VAD web build
+        run: corepack pnpm run verify:web-build-reproducible
 
       - name: Run tests
-        run: npm run test
+        run: corepack pnpm run test
