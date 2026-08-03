@@ -131,6 +131,9 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.22.2
+      playwright:
+        specifier: 1.61.0
+        version: 1.61.0
       webpack:
         specifier: 5.107.2
         version: 5.107.2(esbuild@0.17.19)(webpack-cli@5.1.4)
